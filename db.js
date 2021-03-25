@@ -14,7 +14,7 @@ const db = pg({
 //CRUD 
 //Get all books
 const getBooks = (req,res) => {
-  db.query('SELECT * FROM books ORDER BY id ASC', (error,results) => {
+  db.query('SELECT * FROM Books ORDER BY id ASC', (error,results) => {
     if(error){
       throw error
     }
@@ -26,7 +26,7 @@ const getBooks = (req,res) => {
 const getBookById = (req,res) => {
   const id = parseInt(req.params.id)
 
-  db.query('SELECT * FROM books WHERE id=$1', (error,results) => {
+  db.query('SELECT * FROM Books WHERE id=$1', (error,results) => {
     if(error){
       throw error
     }
@@ -37,9 +37,9 @@ const getBookById = (req,res) => {
 //create/add a new book
 const createBook = (req,res) => {
   //name of book/title
-  const { title } = req.body
+  const { Title, Author, YearPublished, Genre, Pages } = req.body
 
-  db.query('INSERT INTO books (title) VALUES ($1)', [title], (error, results) => {
+  db.query('INSERT INTO Books (Title) VALUES ($1)', [Title, Author, YearPublished, Genre, Pages], (error, results) => {
     if(error){
       throw error
     }
@@ -50,23 +50,23 @@ const createBook = (req,res) => {
 //update book data
 const updateBook = (req,res) => {
   const id = parseInt(req.params.id)
-  const { title } = req.body
-  db.query('UPDATE book SET title =$1 WHERE id=$2',[title], (error,results) => {
+  const { Title, Author, YearPublished, Genre, Pages } = req.body
+  db.query('UPDATE Book SET Title =$1 WHERE id=$2',[Title, Author, YearPublished, Genre, Pages], (error,results) => {
     if(error){
       throw error
     }
-    res.status(200).send(`book modified with ID: ${id}`)
+    res.status(200).send(`Book modified with ID: ${id}`)
   })
 }
 
 //delete a book
 const deleteBook = (req,res) => {
   const id = parseInt(req.params.id)
-  db.query('DELETE FROM book WHERE id=$1', [id], (error, results) => {
+  db.query('DELETE FROM Book WHERE id=$1', [id], (error, results) => {
     if(error){
       throw error
     }
-    res.status(200).send(`book deleted with ID: ${id}`)
+    res.status(200).send(`Book deleted with ID: ${id}`)
   })
 }
 
