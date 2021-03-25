@@ -4,7 +4,7 @@ CREATE TABLE "Library" (
   "Location" varchar
 );
 
-CREATE TABLE "Books" (
+CREATE TABLE "Book" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "Title" varchar NOT NULL,
   "Author" varchar NOT NULL,
@@ -21,4 +21,4 @@ CREATE TABLE "Library_Books" (
 
 ALTER TABLE "Library_Books" ADD FOREIGN KEY ("Library_Id") REFERENCES "Library" ("id");
 
-ALTER TABLE "Library_Books" ADD FOREIGN KEY ("Book_Id") REFERENCES "Books" ("id");
+ALTER TABLE "Library_Books" ADD FOREIGN KEY ("Book_Id") REFERENCES "Book" ("id");
