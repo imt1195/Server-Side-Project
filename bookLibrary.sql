@@ -7,7 +7,7 @@ CREATE TABLE "Library" (
 CREATE TABLE "Books" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "Title" varchar NOT NULL,
-  "Authot" varchar NOT NULL,
+  "Author" varchar NOT NULL,
   "YearPublished" year,
   "Genre" varchar,
   "Pages" int
