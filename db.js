@@ -11,6 +11,21 @@ const db = pg({
   "user": "postgresql"
 })
 
+//find the books at each specific Library , I.T.
+const getBooksAtLibraries = (req,res) =>{
+  db.query('SELECT Library_Id, Book_Id FROM Library_Books JOIN LibraryName ON Library.id = Library_Id JOIN Title ON Books.id = Book_Id', (error,results)=>{
+    if(error){
+      throw error
+    }
+    res.status(200).json(results.row)
+  })
+}
+
+const getLibraryCatalog = (req,res) =>{
+  //const id = parseInt(req.params.id)
+  bd.query('SELECT * FROM Library_Books JOIN Library_Books WHERE id=')
+}
+
 //CRUD 
 //Get all books
 const getBooks = (req,res) => {
@@ -25,7 +40,6 @@ const getBooks = (req,res) => {
 //get book by id 
 const getBookById = (req,res) => {
   const id = parseInt(req.params.id)
-
   db.query('SELECT * FROM Books WHERE id=$1', (error,results) => {
     if(error){
       throw error

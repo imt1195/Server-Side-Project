@@ -16,6 +16,10 @@ app.post('/books', db.createbook) //add book
 app.put('/books/:id', db.updateBook) //update a book was it read?
 app.delete('/books/:id', db.deleteBook) //delete a book
 
+app.get('/library', getLibraries) //get the list of Libraries I.T
+app.get('/library/books', getLibraryCatalog) //get the list of books at each library
+a
+
 app.listen(PORT, () => {
     console.log(`listenining on http://localhost:${PORT}`);
   });
