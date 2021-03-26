@@ -4,6 +4,7 @@ exports.up = function (knex) {
       table.increments('id')
       table.string('LibraryName')
       table.string('Location')
+      table.string('LeadLibrarian')
   })
 };
 
