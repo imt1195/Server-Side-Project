@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 const PORT = process.env.PORT || 3000;
 //import db 
 const db = require("./db");
-
+const dbClass = require("./library")
 
 // app.use(express.json());
 app.use(bodyParser.json());
@@ -19,8 +19,8 @@ app.post('/books', db.createBook) //add book
 app.put('/books/:id', db.updateBook) //update a book was it read?
 app.delete('/books/:id', db.deleteBook) //delete a book
 
-app.get('/library', getLibraries) //get the list of Libraries I.T
-app.get('/library/books', getLibraryCatalog) //get the list of books at each library
+app.get('/library/:id', dbClass.getLibraryCatalog) //get the list of books at each library
+app.get('/library/:id', dbClass.getLibraries) //get a list of all the libraries
 
 app.listen(PORT, () => {
     console.log(`listenining on http://localhost:${PORT}`);

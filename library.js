@@ -1,18 +1,23 @@
 //have to encapsulate in classes
 
 //find the books at each specific Library , I.T.
-const getBooksAtLibraries = (req,res) =>{
-  db.query('SELECT Library_Id, Book_Id FROM Library_Books JOIN LibraryName ON Library.id = Library_Id JOIN Title ON Books.id = Book_Id', (error,results)=>{
-    if(error){
-      throw error
-    }
-    res.status(200).json(results.row)
-  })
+const getLibraryCatalog = async (req,res) =>{
+  try{
+    const bookList = await db.query('SELECT title, author, library.id, LibraryName, Location, FROM library INNER JOIN books ON Library_Id = library.id')
+    return res.json(bookList)
+  }catch(error){
+    res.status(500).send(err)
+  }
 }
 
-const getLibraryCatalog = (req,res) =>{
-  //const id = parseInt(req.params.id)
-  bd.query('SELECT * FROM Library_Books JOIN Library_Books WHERE id=')
+//list out the libraries: Names, Locations, and Lead Librarians
+const getLibraries = async (req,res) =>{
+  try{
+    const LibraryList = await db.query('SELECT * FROM library ORDER BY id ASC')
+    return res.json(LibraryList)
+  }catch(error){
+    res.status(500).send(err)
+  }
 }
 
 //CRUD 
