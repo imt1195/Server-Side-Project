@@ -1,6 +1,5 @@
 const knexfile = require('./knexfile')
 
-//install pg promise
 const pg = require('pg-promise')();
 
 //user?
