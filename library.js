@@ -1,23 +1,33 @@
 //have to encapsulate in classes
 
-//find the books at each specific Library , I.T.
-const getLibraryCatalog = async (req,res) =>{
-  try{
-    const bookList = await db.query('SELECT title, author, library.id, LibraryName, Location, FROM library INNER JOIN books ON Library_Id = library.id')
-    return res.json(bookList)
-  }catch(error){
-    res.status(500).send(err)
+//library class, I.T.
+class Library{
+  constructor({id, LibraryName, Location, LeadLibrarian}){
+    this.id = id;
+    this.LibraryName = LibraryName;
+    this.Location = Location;
+    this.LeadLibrarian = LeadLibrarian;
   }
-}
+//find the books at each specific Library
+  static async getLibraryCatalog(req,res){
+    try{
+      const bookList = await db.query('select title, author, library.id, LibraryName, Location, from library inner join books on Library_Id = library.id;')
+      return res.json(bookList)
+    }catch(error){
+      res.status(500).send(err)
+    }
+  }
 
-//list out the libraries: Names, Locations, and Lead Librarians
-const getLibraries = async (req,res) =>{
-  try{
-    const LibraryList = await db.query('SELECT * FROM library ORDER BY id ASC')
-    return res.json(LibraryList)
-  }catch(error){
-    res.status(500).send(err)
+  //list out the libraries: Names, Locations, and Lead Librarians
+  static async getLibraries(req,res){
+    try{
+      const LibraryList = await db.query('select * from library order by id asc;')
+      return res.json(LibraryList)
+    }catch(error){
+      res.status(500).send(err)
+    }
   }
+
 }
 
 //CRUD 
