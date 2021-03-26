@@ -6,7 +6,7 @@ module.exports = {
     client: 'postgresql',
     connection: {
       database: 'bookLibrary',
-      user: 'postgressql',
+      user: 'jaylenebautista',
       password: ''
     },
     // client: 'sqlite3',

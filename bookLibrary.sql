@@ -10,7 +10,7 @@ CREATE TABLE "Book" (
   "Author" varchar NOT NULL,
   "YearPublished" year,
   "Genre" varchar,
-  "Pages" int
+  "Pages" intB
 );
 
 CREATE TABLE "Library_Books" (
