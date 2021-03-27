@@ -47,9 +47,11 @@ app.get('/libraries', async(req,res) => {
 })
 
 //find the available books at each library, using the library id
-app.get('/library/:id/catalog', async(req,res) => {
+app.get('/librarybooks/:id', async(req,res) => {
   const id = parseInt(req.params.id);
-  const bookList = Libraries.getLibraryCatalog(id)
+  //const bookList = Libraries.getLibraryCatalog(id, Books); //possibly pass in books as well
+  const bookList = await db.query('select * from books join libraries on libraries.id = Books.library_id')
+  return bookList
 })
 
 //add book
