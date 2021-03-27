@@ -8,11 +8,13 @@ class Library{
     this.Location = Location;
     this.LeadLibrarian = LeadLibrarian;
   }
+  
 //find the books at each specific Library
-  static async getLibraryCatalog(LibrId, books){
+  static async getLibraryCatalog(LibrId){
     try{
-    //let bookList = await db.query('select title, author, library.id =$1, libraryname, Location, from library, books where books.library_id = library.id;', id)
-    let bookList = await db.query('select * from books join library on library.id = books.library_id and books.library_id = LibrId')
+    console.log("getting Library Catalog")
+    let bookList = await db.any('select * from books join library on library.id=$1 where library_id=$1;', LibrId)
+    console.log(bookList)
     return bookList
     }catch(error){
       console.log(error)
