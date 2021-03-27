@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 //import db 
 // const db = require("./db");
 const Books = require('./books')
+const Libraries = require('./books')
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -38,6 +39,18 @@ app.delete('/books/delete/:id', async (req,res) => {
     return res.status(404).send(err);
   }
 }); 
+
+//find available libraries
+app.get('/libraries', async(req,res) => {
+  const libraries = await Libraries.getLibraries()
+  return res.send(libraries)
+})
+
+//find the available books at each library, using the library id
+app.get('/library/:id/catalog', async(req,res) => {
+  const id = parseInt(req.params.id);
+  const bookList = Libraries.getLibraryCatalog(id)
+})
 
 //add book
 // app.post('/books', (req,res) => {
