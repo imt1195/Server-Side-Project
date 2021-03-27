@@ -49,28 +49,10 @@ app.get('/libraries', async(req,res) => {
 //find the available books at each library, using the library id
 app.get('/librarybooks/:id', async(req,res) => {
   const id = parseInt(req.params.id);
-  //const bookList = Libraries.getLibraryCatalog(id, Books); //possibly pass in books as well
-  const bookList = await db.query('select * from books join libraries on libraries.id = Books.library_id')
-  return bookList
+  const bookList = await Libraries.getLibraryCatalog(id);
+  console.log(bookList)
+  return res.send(bookList)
 })
-
-//add book
-// app.post('/books', (req,res) => {
-//   const id = parseInt(req.params.id);
-//   Books.createBook({
-//     id: 4,
-//     title: 'The Fifth Season',  
-//     Author: 'N. K. Jemisin', 
-//     YearPublished: 2015, 
-//     Genre: 'science fantasy', 
-//     Pages: 449})
-// });
-
-// app.put('/books/:id', (req,res) => {Books.updateBook()}); //update a book was it read?
-
-
-// app.get('/library/:id', dbClass.getLibraryCatalog) //get the list of books at each library
-// app.get('/library/:id', dbClass.getLibraries) //get a list of all the libraries
 
 app.listen(PORT, () => {
     console.log(`listenining on http://localhost:${PORT}`);
