@@ -1,15 +1,18 @@
 //have to encapsulate in classes
 const db = require('./db')
+// const Library = require('./library')
 
 class Books {
-  constructor({id, title, Author, YearPublished, Genre, Pages}){
+  constructor({id, title, author, year_published, genre, pages,status}){
     this.id = id
     this.title = title
-    this.Author = Author
-    this.YearPublished = YearPublished
-    this.Genre = Genre
-    this.Pages = Pages
+    this.author = author
+    this.year_published = year_published
+    this.genre = genre
+    this.pages = pages
+    this.status = status
   }
+
   //CRUD 
   //Get all books
   static async getBooks() {
@@ -17,10 +20,10 @@ class Books {
     return books; 
     // console.log(books)
   }
- 
+
   //get book by id 
   static async getBookById(id) {
-    const [book] = await db.query('select * from books where id = $1;', id)
+    const [book] = await db.query('select * from books where id = $1;', [id])
     if(book){
       console.log(new this(book))
       return new this(book)
@@ -29,41 +32,25 @@ class Books {
     }
   } 
 
-  //not fully working yet 
+  //update book data
+  static async updateBook(id,newStatus) {
+    await db.none('update books set status=$2 where id=$1;',
+      [id, newStatus]
+    )
+  }
 
   //delete a book
   static async deleteBook(id) {
-    const deleted =  await db.query('delete from books where id=$1;', [id])
-    return deleted;
-    // console.log(deleted)
+    await db.query('delete from books where id=$1;', [id])
   }
 
+ //not fully working yet 
   //create/add a new book
-  static async createBook() {
-    const book = db.query('insert into books (title, Author, YearPublished, Genre, Pages) values ($1,$2,$3,$4,$5) returning *;')
-    console.log(book)
-  }
-
-  //update book data
-  static async updateBook(id) {
-    const updated_book = await db.query('update books set title=$1, Author=$2, YearPublished=$3, Genre=$4, Pages=$5 where id=$6;')
-    console.log(updated_book) 
+  static async createBook({title, author, year_published, genre, pages, status, library_id}) {
+    await db.query('insert into books (title, author, year_published, genre, pages, status, library_id) values ($1,$2,$3,$4,$5,$6, $7);',
+     [title, author, year_published, genre, pages, status, library_id]
+    )
   }
 }
 
 module.exports = Books;
-
-//find the books at each specific Library
-  // async getBooksAtLibraries(){
-  //   const books = await db.any('select Library_Id, Book_Id FROM Library_Books JOIN LibraryName ON Library.id = Library_Id JOIN Title ON Books.id = Book_Id', (error,results)=>{
-  //     if(error){
-  //       throw error
-  //     }
-  //     res.status(200).json(results.row)
-  //   })
-  // }
-
-// const getLibraryCatalog = (req,res) =>{
-//   //const id = parseInt(req.params.id)
-//   bd.query('SELECT * FROM Library_Books JOIN Library_Books WHERE id=')
-// }

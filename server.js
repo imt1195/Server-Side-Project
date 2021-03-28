@@ -3,9 +3,9 @@ const app = express();
 const bodyParser = require("body-parser")
 const PORT = process.env.PORT || 3000;
 //import db 
-// const db = require("./db");
+const db = require("./db");
 const Books = require('./books')
-const Libraries = require('./books')
+const Libraries = require('./library')
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -27,18 +27,48 @@ app.get('/books/:id', async (req,res) => {
   return res.send(bookId);
 }); 
 
+// add book
+app.post('/books', async (req,res) => {
+  const {title, author, year_published, genre, pages, status, library_id} = req.body;
+  try{
+    await Books.createBook({title, author, year_published, genre, pages, status, library_id});
+    res.status(201).send({
+      message: `Your book with the title ${title} has been created successfully `,
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json(error)
+  }
+});
+
+ //update a book 
+ app.patch('/books/:id', async (req,res) =>{
+  const id = parseInt(req.params.id);
+  const newStatus = req.body.status;
+
+  try{
+    const bookToUpdate = await Books.updateBook(id, newStatus)
+    res.status(200).json({
+      message: "successfully updated",
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json(error)
+  }
+})
+
 //delete a book
-app.delete('/books/delete/:id', async (req,res) => {
+app.delete('/books/:id', async(req,res)=>{
   const id = parseInt(req.params.id);
   try {
     await Books.deleteBook(id);
     res.status(200).json({
-      message: "sucessfully deleted book",
+      message: "successfully deleted book",
     })
-  } catch (err){
-    return res.status(404).send(err);
+  } catch(error){
+    return res.status(500).json(error)
   }
-}); 
+})
 
 //find available libraries
 app.get('/libraries', async(req,res) => {
@@ -55,5 +85,5 @@ app.get('/librarybooks/:id', async(req,res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`listenining on http://localhost:${PORT}`);
+    console.log(`listenining on http://localhost:${PORT}`); 
 }); 
